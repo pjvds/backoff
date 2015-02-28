@@ -16,9 +16,9 @@ func Exp(delay time.Duration, max time.Duration) *ExpBackoff {
 	}
 }
 
-func (this *ExpBackoff) Backoff() {
+func (this *ExpBackoff) Sleep() {
 	if this.delay += this.initial; this.delay > this.max {
-		this.delay.max
+		this.delay = this.max
 	}
 
 	time.Sleep(this.delay)
