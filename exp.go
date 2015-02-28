@@ -1,29 +1,33 @@
 package backoff
 
-import "time"
+import (
+	"math"
+	"time"
+)
 
-type ExpBackoff struct {
-	initial time.Duration
-	delay   time.Duration
-	max     time.Duration
+type ExpDelay struct {
+	delay float64
+	count float64
+	max   time.Duration
 }
 
-func Exp(delay time.Duration, max time.Duration) *ExpBackoff {
-	return &ExpBackoff{
-		initial: delay,
-		delay:   delay,
-		max:     max,
+func Exp(delay time.Duration, max time.Duration) *ExpDelay {
+	return &ExpDelay{
+		delay: float64(delay),
+		max:   max,
 	}
 }
 
-func (this *ExpBackoff) Sleep() {
-	if this.delay += this.initial; this.delay > this.max {
-		this.delay = this.max
-	}
+func (this *ExpDelay) Delay() {
+	delay := time.Duration(math.Pow(2, this.count) * this.delay)
 
-	time.Sleep(this.delay)
+	if delay > this.max {
+		delay = this.max
+	}
+	time.Sleep(delay)
+	this.count++
 }
 
-func (this *ExpBackoff) Reset() {
-	this.delay = this.initial
+func (this *ExpDelay) Reset() {
+	this.count = 0
 }
