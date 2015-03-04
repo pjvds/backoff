@@ -26,6 +26,8 @@ func main() {
 }
 ```
 
+Outputs:
+
 ``` terminal
 $ go run main.go
 1.221325ms
