@@ -20,6 +20,9 @@ func Exp(delay time.Duration, max time.Duration) *ExpDelay {
 	}
 }
 
+// Delays the current context with the initial delay times multiplied
+// by the power of 2 of the delay count. The delay count is increased
+// by 1 for every call to this method. Use Reset to reset this count to 0.
 func (this *ExpDelay) Delay() {
 	delay := time.Duration(math.Pow(2, this.count) * this.delay)
 
