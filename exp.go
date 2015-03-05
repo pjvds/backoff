@@ -11,6 +11,8 @@ type ExpDelay struct {
 	max   time.Duration
 }
 
+// Creates an exponential delay. Call Delay to delay the current
+// context, or Reset to reset the delay time to its initial state.
 func Exp(delay time.Duration, max time.Duration) *ExpDelay {
 	return &ExpDelay{
 		delay: float64(delay),
