@@ -33,6 +33,7 @@ func (this *ExpDelay) Delay() {
 	this.count++
 }
 
+// Reset the delay count to 0.
 func (this *ExpDelay) Reset() {
 	this.count = 0
 }
