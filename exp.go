@@ -6,7 +6,7 @@ import (
 )
 
 type ExpDelay struct {
-	delay float64
+	delay time.Duration
 	count float64
 	max   time.Duration
 }
@@ -15,7 +15,7 @@ type ExpDelay struct {
 // context, or Reset to reset the delay time to its initial state.
 func Exp(delay time.Duration, max time.Duration) *ExpDelay {
 	return &ExpDelay{
-		delay: float64(delay),
+		delay: delay,
 		max:   max,
 	}
 }
@@ -24,7 +24,7 @@ func Exp(delay time.Duration, max time.Duration) *ExpDelay {
 // by the power of 2 of the delay count. The delay count is increased
 // by 1 for every call to this method. Use Reset to reset this count to 0.
 func (this *ExpDelay) Delay() {
-	delay := time.Duration(math.Pow(2, this.count) * this.delay)
+	delay := time.Duration(math.Pow(2, this.count) * float64(this.delay))
 
 	if delay > this.max {
 		delay = this.max
