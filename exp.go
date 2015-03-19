@@ -28,9 +28,14 @@ func (this *ExpDelay) Delay() {
 
 	if delay > this.max {
 		delay = this.max
+	} else {
+		// only increase counter when the ceiling is not
+		// reached yet, otherwise delay will eventually overflow
+		// when reset is never called.
+		this.count++
 	}
+
 	time.Sleep(delay)
-	this.count++
 }
 
 // Reset the delay count to 0.
