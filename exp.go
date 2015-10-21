@@ -20,11 +20,16 @@ func Exp(delay time.Duration, max time.Duration) *ExpDelay {
 	}
 }
 
+// Next return the duration of the next delay.
+func (this *ExpDelay) Next() time.Duration {
+	return time.Duration(math.Pow(2, this.count) * float64(this.delay))
+}
+
 // Delays the current context with the initial delay times multiplied
 // by the power of 2 of the delay count. The delay count is increased
 // by 1 for every call to this method. Use Reset to reset this count to 0.
 func (this *ExpDelay) Delay() {
-	delay := time.Duration(math.Pow(2, this.count) * float64(this.delay))
+	delay := this.Next()
 
 	if delay > this.max {
 		delay = this.max
