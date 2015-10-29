@@ -29,6 +29,10 @@ func (this *ExpDelay) Next() time.Duration {
 // by the power of 2 of the delay count. The delay count is increased
 // by 1 for every call to this method. Use Reset to reset this count to 0.
 func (this *ExpDelay) Delay() {
+	<-this.DelayC()
+}
+
+func (this *ExpDelay) DelayC() <-chan time.Time {
 	delay := this.Next()
 
 	if delay > this.max {
@@ -40,7 +44,7 @@ func (this *ExpDelay) Delay() {
 		this.count++
 	}
 
-	time.Sleep(delay)
+	return time.After(delay)
 }
 
 // Reset the delay count to 0.
